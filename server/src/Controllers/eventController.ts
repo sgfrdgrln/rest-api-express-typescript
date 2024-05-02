@@ -1,21 +1,24 @@
 import express from 'express';
-
 import { EventModel } from '../Models/events';
 
-export const getAllEvents = async(req: express.Request, res: express.Response) => {
-
-    const events = await EventModel.find();
-
-    if(!events?.length) {
-        return res.status(400).json({message: 'No event found'})
+export class Events {
+    async getAllEvents(req: express.Request, res: express.Response) {
+        try {
+            const events = await EventModel.find();
+    
+            if (!events || events.length === 0) {
+                return res.status(404).json({ message: 'No event found' });
+            }
+    
+            res.json(events);
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
-    res.json(events);
+    async createEvent(req: express.Request, res: express.Response)  {
 
-}
-
-export const createEvent = async(req: express.Request, res: express.Response) => {
-
-   // Get other fields from request body
+        // Get other fields from request body
    const { title, description, rtfContent, eventJoinable, eventEndDate} = req.body;
 
    const { originalname, buffer, mimetype } = req.file;
@@ -46,10 +49,6 @@ export const createEvent = async(req: express.Request, res: express.Response) =>
     // }
     return res.status(400).json({ message: 'Duplicate title event' });
 }
-
-
-
-
 // Create new event in database
 const event = new EventModel({
     title,
@@ -70,9 +69,12 @@ if (event) {
 } else {
     res.status(400).json({ message: 'Invalid event data received' });
 }
-    
 
+    }
 }
+
+
+
 
 
 
