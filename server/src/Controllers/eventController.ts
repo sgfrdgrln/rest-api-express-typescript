@@ -2,6 +2,7 @@ import express from 'express';
 import { EventModel } from '../Models/events';
 
 export class Events {
+    
     async getAllEvents(req: express.Request, res: express.Response) {
         try {
             const events = await EventModel.find();

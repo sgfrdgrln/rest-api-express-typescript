@@ -2,7 +2,9 @@ import express from "express";
 import { getUserByUsername, createUser } from "../Models/users";
 import { authentication, random } from "../Helpers/helper";
 
-export const login = async (req: express.Request, res: express.Response) => {
+export class Auth {
+
+  async login(req: express.Request, res: express.Response) {
     try {
       const { username, password } = req.body;
   
@@ -34,7 +36,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     }
   };
 
-export const register = async (req: express.Request, res: express.Response) => {
+  async register(req: express.Request, res: express.Response) {
 
     try {
         const { username, password } = req.body;
@@ -72,3 +74,10 @@ export const register = async (req: express.Request, res: express.Response) => {
     }
 
 }
+  
+}
+
+
+
+
+
